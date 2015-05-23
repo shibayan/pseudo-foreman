@@ -15,6 +15,10 @@ IF NOT EXIST %PROCFILE% (
 
 FOR /f "delims=: tokens=1,2" %%i IN (%PROCFILE%) DO (
   IF "%%i" == "web" (
-    call %%j
+    SET EXECUTE_CMD=%%j
   )
 )
+
+FOR /f "usebackq tokens=*" %%i IN (`sh.exe -c "echo %EXECUTE_CMD%"`) DO SET EXECUTE_CMD=%%i
+
+CALL %EXECUTE_CMD%
